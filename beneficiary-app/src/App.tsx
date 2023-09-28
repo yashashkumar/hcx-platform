@@ -40,8 +40,7 @@ const App = () => {
         draggable
       />
       <Routes>
-        <Route path="/" element={<Navigate to="/otp" />} />
-        <Route path="/otp" element={<OTP />}></Route>
+        <Route path="/" element={<OTP />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/verify-otp" element={<VerifyOTP />}></Route>
         <Route element={<DefaultLayout />}>
