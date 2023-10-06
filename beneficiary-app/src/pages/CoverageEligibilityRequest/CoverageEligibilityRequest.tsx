@@ -66,7 +66,7 @@ const CoverageEligibilityRequest = () => {
       );
       setIsLoading(false);
       if (response?.status === 202) {
-        navigate('/request-success', {
+        navigate('/beneficiary-app/request-success', {
           state: {
             text: 'coverage eligibility',
             mobileNumber: _.get(location, 'state.mobile'),

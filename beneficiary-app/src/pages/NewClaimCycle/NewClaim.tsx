@@ -403,7 +403,7 @@ const NewClaim = () => {
             }
             onClick={(event: any) => {
               event.preventDefault();
-              navigate('/initiate-claim-request', {
+              navigate('/beneficiary-app/initiate-claim-request', {
                 state: { ...initiateClaimRequestBody },
               });
             }}

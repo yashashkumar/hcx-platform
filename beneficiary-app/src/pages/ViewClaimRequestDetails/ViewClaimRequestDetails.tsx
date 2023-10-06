@@ -169,7 +169,7 @@ const ViewClaimRequestDetails = () => {
       setLoading(false);
       setInitiated(false);
       toast.success(res.data?.message);
-      navigate('/bank-details', { state: sendInfo });
+      navigate('/beneficiary-app/bank-details', { state: sendInfo });
     } catch (err) {
       setLoading(false);
       toast.error('Enter valid OTP!');
@@ -296,7 +296,7 @@ const ViewClaimRequestDetails = () => {
           <button
             onClick={(event: any) => {
               event.preventDefault();
-              navigate('/home');
+              navigate('/beneficiary-app/home');
             }}
             type="submit"
             className="align-center mt-8 flex w-full justify-center rounded bg-primary py-3 font-medium text-gray"

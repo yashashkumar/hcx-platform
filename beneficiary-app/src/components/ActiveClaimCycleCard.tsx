@@ -73,10 +73,10 @@ const ActiveClaimCycleCard = (Props: any) => {
             onClick={() =>
               navigate(
                 Props.type === 'claim'
-                  ? '/view-active-request'
+                  ? '/beneficiary-app/view-active-request'
                   : Props.type === 'coverageeligibility'
-                  ? '/coverage-eligibility'
-                  : '/view-active-request',
+                  ? '/beneficiary-app/coverage-eligibility'
+                  : '/beneficiary-app/view-active-request',
                 { state: information }
               )
             }

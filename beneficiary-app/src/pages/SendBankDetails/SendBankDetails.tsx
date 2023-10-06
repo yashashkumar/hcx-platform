@@ -96,7 +96,7 @@ const SendBankDetails = () => {
       setLoading(false);
       if (res.status === 202) {
         toast.success('Bank deatils submitted successfully!');
-        navigate('/success');
+        navigate('/beneficiary-app/success');
       }
     } catch (err) {
       setLoading(false);

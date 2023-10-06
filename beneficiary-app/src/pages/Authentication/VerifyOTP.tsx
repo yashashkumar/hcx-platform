@@ -37,9 +37,9 @@ const VerifyOTP = () => {
           toast.success('OTP verified successfully!', {
             position: toast.POSITION.TOP_CENTER,
           });
-          navigate('/home', { state: filter });
+          navigate('/beneficiary-app/home', { state: filter });
         } else {
-          navigate('/signup');
+          navigate('/beneficiary-app/signup');
         }
       }
     } catch (error: any) {

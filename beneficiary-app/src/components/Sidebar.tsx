@@ -111,7 +111,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     >
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-        <NavLink to="/home">
+        <NavLink to="/beneficiary-app/home">
           <img className="hidden w-40 dark:block" src={Logo} alt="Logo" />
           <img className="w-40 dark:hidden" src={Logo} alt="Logo" />
         </NavLink>
@@ -153,7 +153,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               {/* <!-- Menu Item Dashboard --> */}
               <SidebarLinkGroup
                 activeCondition={
-                  pathname === '/home' || pathname.includes('home')
+                  pathname === '/beneficiary-app/home' || pathname.includes('home')
                 }
               >
                 {() => {
@@ -161,13 +161,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     <React.Fragment>
                       <div
                         className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === '/home' || pathname.includes('home')) &&
+                          (pathname === '/beneficiary-app/home' || pathname.includes('home')) &&
                           'bg-graydark dark:bg-meta-4'
                         }`}
                         onClick={(e) => {
                           e.preventDefault();
                           sidebarExpanded
-                            ? navigate('/home')
+                            ? navigate('/beneficiary-app/home')
                             : setSidebarExpanded(true);
                         }}
                       >
@@ -195,7 +195,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               </SidebarLinkGroup>
               <SidebarLinkGroup
                 activeCondition={
-                  pathname === '/profile' || pathname.includes('profile')
+                  pathname === '/beneficiary-app/profile' || pathname.includes('profile')
                 }
               >
                 {() => {
@@ -203,14 +203,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     <React.Fragment>
                       <div
                         className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === '/profile' ||
+                          (pathname === '/beneficiary-app/profile' ||
                             pathname.includes('profile')) &&
                           'bg-graydark dark:bg-meta-4'
                         }`}
                         onClick={(e) => {
                           e.preventDefault();
                           sidebarExpanded
-                            ? navigate('/profile')
+                            ? navigate('/beneficiary-app/profile')
                             : setSidebarExpanded(true);
                         }}
                       >

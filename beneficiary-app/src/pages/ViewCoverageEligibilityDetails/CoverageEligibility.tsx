@@ -411,15 +411,15 @@ const CoverageEligibility = () => {
                 onClick={(event: any) => {
                   event.preventDefault();
                   if (selectedValue === 'Initiate new claim request') {
-                    navigate('/initiate-claim-request', {
+                    navigate('/beneficiary-app/initiate-claim-request', {
                       state: requestDetails,
                     });
                   } else if (selectedValue === 'Initiate pre-auth request') {
-                    navigate('/initiate-preauth-request', {
+                    navigate('/beneficiary-app/initiate-preauth-request', {
                       state: requestDetails,
                     });
                   } else {
-                    navigate('/view-active-request', {
+                    navigate('/beneficiary-app/view-active-request', {
                       state: requestDetails,
                     });
                   }
@@ -430,7 +430,7 @@ const CoverageEligibility = () => {
               </button>
             ) : (
               <button
-                onClick={() => navigate('/home')}
+                onClick={() => navigate('/beneficiary-app/home')}
                 className="align-center mt-4 flex w-full justify-center rounded bg-primary py-4 font-medium text-gray disabled:cursor-not-allowed disabled:bg-secondary disabled:text-gray"
               >
                 Home

@@ -25,7 +25,7 @@ const RequestSuccess = () => {
       <button
         onClick={(event: any) => {
           event.preventDefault();
-          navigate('/home', { state: mobile });
+          navigate('/beneficiary-app/home', { state: mobile });
         }}
         type="submit"
         className="align-center mt-8 flex w-full justify-center rounded bg-primary py-3 font-medium text-gray"

@@ -30,52 +30,48 @@ const App = () => {
     <Loader />
   ) : (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={1500}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-      />
       <Routes>
-        <Route path="/" element={<Navigate to="/beneficiary-otp" />} />
-        <Route path="/beneficiary-otp" element={<OTP />}></Route>
-        <Route path="/signup" element={<SignUp />}></Route>
-        <Route path="/verify-otp" element={<VerifyOTP />}></Route>
+        <Route path="/" element={<Navigate to={'/beneficiary-app/otp'} />} />
+        <Route path="/beneficiary-app/otp" element={<OTP />} />
+        <Route path="/beneficiary-app/signup" element={<SignUp />} />
+        <Route path="/beneficiary-app/verify-otp" element={<VerifyOTP />} />
         <Route element={<DefaultLayout />}>
-          <Route path="/home" element={<Home />} />
-          <Route path="/new-claim" element={<NewClaim />} />
+          <Route path="/beneficiary-app/home" element={<Home />} />
+          <Route path="/beneficiary-app/new-claim" element={<NewClaim />} />
           <Route
-            path="/coverage-eligibility-request"
+            path="/beneficiary-app/coverage-eligibility-request"
             element={<CoverageEligibilityRequest />}
           />
           <Route
-            path="/coverage-eligibility"
+            path="/beneficiary-app/coverage-eligibility"
             element={<CoverageEligibility />}
           />
           <Route
-            path="/initiate-claim-request"
+            path="/beneficiary-app/initiate-claim-request"
             element={<InitiateNewClaimRequest />}
           />
           <Route
-            path="/initiate-preauth-request"
+            path="/beneficiary-app/initiate-preauth-request"
             element={<PreAuthRequest />}
           />
           <Route
-            path="/view-active-request"
+            path="/beneficiary-app/view-active-request"
             element={<ViewClaimRequestDetails />}
           />
           <Route
-            path="/coverage-eligibility-success-page"
+            path="/beneficiary-app/coverage-eligibility-success-page"
             element={<CoverageEligibilitySuccessPage />}
           />
-          <Route path="/request-success" element={<RequestSuccess />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/bank-details" element={<SendBankDetails />} />
-          <Route path="/success" element={<Success />} />
+          <Route
+            path="/beneficiary-app/request-success"
+            element={<RequestSuccess />}
+          />
+          <Route path="/beneficiary-app/profile" element={<Profile />} />
+          <Route
+            path="/beneficiary-app/bank-details"
+            element={<SendBankDetails />}
+          />
+          <Route path="/beneficiary-app/success" element={<Success />} />
         </Route>
       </Routes>
     </>

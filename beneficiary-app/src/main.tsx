@@ -5,10 +5,10 @@ import App from './App';
 import './index.css';
 import './satoshi.css';
 import './simple-datatables.css';
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-    <Router>
-      <App />
-    </Router>
+  <Router>
+    <App />
+  </Router>
 );

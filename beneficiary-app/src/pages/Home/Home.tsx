@@ -54,7 +54,7 @@ const Home = () => {
             setTimeout(() => {
               setLoading(true);
               getCoverageEligibilityRequestList();
-              navigate('/coverage-eligibility-success-page');
+              navigate('/beneficiary-app/coverage-eligibility-success-page');
             }, 3000);
           }
         } catch (error) {
@@ -199,7 +199,7 @@ const Home = () => {
             <a
               className="cursor-pointer underline"
               onClick={() => {
-                navigate('/new-claim', { state: location.state });
+                navigate('/beneficiary-app/new-claim', { state: location.state });
               }}
             >
               {strings.SUBMIT_NEW_CLAIM}

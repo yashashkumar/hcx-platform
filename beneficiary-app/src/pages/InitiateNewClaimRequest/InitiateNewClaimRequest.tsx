@@ -216,7 +216,7 @@ const InitiateNewClaimRequest = () => {
       );
       console.log(getUrl);
       setLoading(false);
-      navigate('/request-success', {
+      navigate('/beneficiary-app/request-success', {
         state: {
           text: 'claim',
           mobileNumber: data.mobile || initiateClaimRequestBody.mobile,

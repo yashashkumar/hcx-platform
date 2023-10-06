@@ -78,7 +78,7 @@ const SignUp = () => {
       toast.success('User registered successfully!', {
         position: toast.POSITION.TOP_CENTER,
       });
-      navigate('/home', { state: mobileNumber });
+      navigate('/beneficiary-app/home', { state: mobileNumber });
     } catch (error: any) {
       setLoading(false);
       toast.error(error.response.data.params.errmsg, {

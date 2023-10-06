@@ -262,7 +262,7 @@ const PreAuthRequest = () => {
         requestPayload
       );
       setLoading(false);
-      navigate('/request-success', {
+      navigate('/beneficiary-app/request-success', {
         state: {
           text: 'preauth',
           mobileNumber: localStorage.getItem('mobile'),
