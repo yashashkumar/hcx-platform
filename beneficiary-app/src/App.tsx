@@ -31,8 +31,8 @@ const App = () => {
   ) : (
     <>
       <Routes>
-        <Route path="/" element={<Navigate to={'/beneficiary-app/otp'} />} />
-        <Route path="/beneficiary-app/otp" element={<OTP />} />
+        <Route path="/" element={<Navigate to={'/beneficiary-app'} />} />
+        <Route path="/beneficiary-app" element={<OTP />} />
         <Route path="/beneficiary-app/signup" element={<SignUp />} />
         <Route path="/beneficiary-app/verify-otp" element={<VerifyOTP />} />
         <Route element={<DefaultLayout />}>
