@@ -19,47 +19,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const trigger = useRef<any>(null);
   const sidebar = useRef<any>(null);
 
-  // const dispatch = useDispatch();
-  // const appLink = process.env.REACT_APP_PAYOR_APP;
-  // const dashboardLink = process.env.REACT_APP_DASHBOARD;
-  // console.log('process env react app', appLink, process.env.REACT_PAYOR_APP);
-
-  // const participantDetails: Object = useSelector(
-  //   (state: RootState) => state.participantDetailsReducer.participantDetails
-  // );
-  // const authToken = useSelector(
-  //   (state: RootState) => state.tokenReducer.participantToken
-  // );
-  // const appData: Object = useSelector(
-  //   (state: RootState) => state.appDataReducer.appData
-  // );
-  // const [email, setEmail] = useState('');
-  // const [pass, setPass] = useState('');
-  // console.log('part details in dash', participantDetails, authToken);
-
-  //const { login } = useAuthActions();
-  // useEffect(() => {
-  //   getParticipant(_.get(appData, 'username')).then((res: any) => {
-  //     console.log('verifier details', res);
-  //     const partData = res['data']['participants'][0];
-  //     console.log(
-  //       'part data in launch',
-  //       partData,
-  //       btoa(_.get(partData, 'mock_payor.primary_email'))
-  //     );
-  //     setEmail(
-  //       _.get(partData, 'mock_payor.primary_email')
-  //         ? _.get(partData, 'mock_payor.primary_email')
-  //         : ''
-  //     );
-  //     setPass(
-  //       _.get(partData, 'mock_payor.password')
-  //         ? _.get(partData, 'mock_payor.password')
-  //         : ''
-  //     );
-  //   });
-  // }, [participantDetails]);
-
   const storedSidebarExpanded = localStorage.getItem('sidebar-expanded');
   const [sidebarExpanded, setSidebarExpanded] = useState(
     storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true'
@@ -105,9 +64,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   return (
     <aside
       ref={sidebar}
-      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
-        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-      }`}
+      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
     >
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
@@ -160,15 +118,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   return (
                     <React.Fragment>
                       <div
-                        className={`group relative flex items-center gap-2.5 rounded-lg px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === '/home' || pathname.includes('home')) &&
+                        className={`group relative flex items-center gap-2.5 rounded-lg px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${(pathname === '/home' || pathname.includes('home')) &&
                           'bg-graydark dark:bg-meta-4'
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          sidebarExpanded
-                            ? navigate('/home')
-                            : setSidebarExpanded(true);
+                          }`}
+                        onClick={() => {
+                          navigate('/home')
+                          setSidebarOpen(!sidebarOpen);
                         }}
                       >
                         <svg
@@ -202,16 +157,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   return (
                     <React.Fragment>
                       <div
-                        className={`group relative flex items-center gap-2.5 rounded-lg px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === '/profile' ||
-                            pathname.includes('profile')) &&
+                        className={`group relative flex items-center gap-2.5 rounded-lg px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${(pathname === '/profile' ||
+                          pathname.includes('profile')) &&
                           'bg-graydark dark:bg-meta-4'
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          sidebarExpanded
-                            ? navigate('/profile')
-                            : setSidebarExpanded(true);
+                          }`}
+                        onClick={() => {
+                          navigate('/profile')
+                          setSidebarOpen(!sidebarOpen);
                         }}
                       >
                         <svg
@@ -242,18 +194,20 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   return (
                     <React.Fragment>
                       <div
-                        className={`group relative flex items-center gap-2.5 rounded-lg px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === '/logout' ||
-                            pathname.includes('logout')) &&
+                        className={`group relative flex items-center gap-1 rounded-lg px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${(pathname === '/logout' ||
+                          pathname.includes('logout')) &&
                           'bg-graydark dark:bg-meta-4'
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          sidebarExpanded
-                            ? navigate('/beneficiary-otp')
-                            : setSidebarExpanded(true);
+                          }`}
+                        onClick={() => {
+                          navigate("/")
+                          setSidebarOpen(!sidebarOpen)
                         }}
                       >
+                        <svg className="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke="white"
+                            strokeWidth={1}
+                            strokeMiterlimit={10} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                        </svg>
                         Logout
                       </div>
                     </React.Fragment>
