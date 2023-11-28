@@ -127,7 +127,7 @@ const Profile = () => {
         {/* {userInfo[0]?.payor_details.map((ele: any, index: number) => ( */}
         <div className="mt-5 rounded-lg border border-stroke bg-white p-2 shadow-default dark:border-strokedark dark:bg-boxdark">
           <div className="mb-2">
-            <div className="flex gap-2">
+            <div className="gap-2">
               <h2 className="text-bold text-base font-bold text-black dark:text-white">
                 Insurance ID :
               </h2>
@@ -135,14 +135,14 @@ const Profile = () => {
                 <input
                   type="text"
                   value={editedInsuranceId}
-                  className="w-70 rounded-lg border border-stroke bg-transparent py-1 pl-2 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  className="w-full rounded-lg border border-stroke bg-transparent py-1 pl-2 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                   onChange={(e) => setEditedInsuranceId(e.target.value)}
                 />
               ) : (
                 <span className="text-base font-medium">{userInfo[0]?.payor_details[0]?.insurance_id}</span>
               )}
             </div>
-            <div className="flex gap-2 mt-2">
+            <div className="gap-2 mt-2">
               <h2 className="text-bold text-base font-bold text-black dark:text-white">
                 Payor code :
               </h2>
@@ -150,13 +150,13 @@ const Profile = () => {
                 <input
                   type="text"
                   value={editedPayor}
-                  className="w-70 rounded-lg border border-stroke bg-transparent py-1 pl-2 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  className="w-full rounded-lg border border-stroke bg-transparent py-1 pl-2 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                   onChange={(e) => setEditedPayor(e.target.value)}
                 />
               ) : (
                 <span className="text-base font-medium">{userInfo[0]?.payor_details[0]?.recipientCode}</span>
               )}
-            </div><div className="flex gap-2 mt-2">
+            </div><div className="gap-2 mt-2">
               <h2 className="text-bold text-base font-bold text-black dark:text-white">
                 Payor Name :
               </h2>
@@ -164,7 +164,7 @@ const Profile = () => {
                 <input
                   type="text"
                   value={payorName}
-                  className="w-70 rounded-lg border border-stroke bg-transparent py-1 pl-2 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  className="w-full rounded-lg border border-stroke bg-transparent py-1 pl-2 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                   onChange={(e) => setPayorName(e.target.value)}
                 />
               ) : (

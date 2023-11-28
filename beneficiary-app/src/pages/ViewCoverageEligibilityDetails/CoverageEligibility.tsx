@@ -30,7 +30,7 @@ const CoverageEligibility = () => {
 
   const claimRequestDetails: any = [
     {
-      key: 'Provider name :',
+      key: 'BSP name :',
       value: providerName || '',
     },
     {
