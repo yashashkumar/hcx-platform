@@ -32,36 +32,39 @@ const Home = () => {
     setInitialized(false);
   };
 
+  const requestPayload = {
+    mobile: getMobileFromLocalStorage,
+    app: "BSP"
+  };
 
   useEffect(() => {
     if (qrCodeData !== undefined) {
       let obj = JSON.parse(qrCodeData);
       let payload = {
         providerName: obj?.provider_name,
-        participantCode: obj?.participant_code,
+        participantCode: process.env.SEARCH_PARTICIPANT_USERNAME,
         serviceType: 'OPD',
         mobile: localStorage.getItem('mobile'),
-        payor: userInformation[0]?.payor_details[0]?.payor,
+        payor: userInformation[0]?.payor_details[0]?.payorName,
         insuranceId: userInformation[0]?.payor_details[0]?.insurance_id,
         patientName: userInformation[0]?.name,
-        app: "BSP"
+        app: "BSP",
+        bspParticipantCode: process.env.SEARCH_PARTICIPANT_USERNAME,
+        password: process.env.SEARCH_PARTICIPANT_PASSWORD,
+        recipientCode: userInformation[0]?.payor_details[0]?.recipientCode
       };
 
       const sendCoverageEligibilityRequest = async () => {
         try {
-          // setLoading(true);
+          setLoading(true);
           let response = await generateOutgoingRequest(
             'create/coverageeligibility/check',
             payload
           );
           if (response?.status === 202) {
-            setLoading(true);
-            setTimeout(() => {
-              setLoading(true);
-              toast.success("Coverage eligibility initiated successfully")
-              setQrCodeData(undefined)
-              getCoverageEligibilityRequestList(setLoading, requestPayload, setActiveRequests, setFinalData, setDisplayedData);
-            }, 3000);
+            toast.success("Coverage eligibility initiated successfully")
+            setQrCodeData(undefined)
+            setLoading(false)
           }
         } catch (error) {
           // setLoading(false);
@@ -69,14 +72,9 @@ const Home = () => {
         }
       };
       sendCoverageEligibilityRequest();
-      setLoading(false);
     }
   }, [qrCodeData]);
 
-  const requestPayload = {
-    mobile: getMobileFromLocalStorage,
-    app: "BSP"
-  };
 
   const filter = {
     entityType: ['Beneficiary'],
@@ -94,13 +92,13 @@ const Home = () => {
     }
   };
 
-  
+
   const loadMoreData = () => {
     const nextData = finalData.slice(currentIndex, currentIndex + 5);
     setDisplayedData([...coverageAndClaimData, ...nextData]);
     setCurrentIndex(currentIndex + 5);
   };
-  
+
   const latestStatusByEntry: Record<string, string | undefined> = {};
 
   activeRequests.forEach((entry: Record<string, any>) => {
@@ -113,14 +111,14 @@ const Home = () => {
         }
         return latest;
       }, null);
-      
+
       // Extract the status of the latest item
       if (latestItem) {
         latestStatusByEntry[key] = latestItem.status;
       }
     }
   });
-  
+
   useEffect(() => {
     search();
     getCoverageEligibilityRequestList(setLoading, requestPayload, setActiveRequests, setFinalData, setDisplayedData);

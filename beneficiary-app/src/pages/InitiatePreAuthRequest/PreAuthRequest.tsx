@@ -96,7 +96,10 @@ const PreAuthRequest = () => {
         }),
       },
     ],
-    type: "OPD"
+    type: 'OPD',
+    bspParticipantCode: process.env.SEARCH_PARTICIPANT_USERNAME,
+    password: process.env.SEARCH_PARTICIPANT_PASSWORD,
+    recipientCode: userInfo[0]?.payor_details[0]?.recipientCode
   };
 
   const participantCodePayload = {

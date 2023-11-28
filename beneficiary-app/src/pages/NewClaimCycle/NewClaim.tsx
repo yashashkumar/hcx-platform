@@ -60,9 +60,10 @@ const NewClaim = () => {
     setProviderName(result);
   };
 
+  const [userInfo, setUserInformation] = useState<any>([]);
   let initiateClaimRequestBody = {
     providerName: providerName,
-    participantCode: participantCode,
+    participantCode: process.env.SEARCH_PARTICIPANT_USERNAME,
     serviceType: treatmentInputRef,
     insurancePlan: insurancePlanInputRef,
     payor:
@@ -72,9 +73,32 @@ const NewClaim = () => {
         ? insuranceId
         : insurancePlanInputRef,
     mobile: localStorage.getItem('mobile'),
+    password: process.env.SEARCH_PARTICIPANT_PASSWORD,
+    recipientCode: userInfo[0]?.payor_details[0]?.recipientCode
   };
 
-  const [userInfo, setUserInformation] = useState<any>([]);
+  const getMobileFromLocalStorage = localStorage.getItem('mobile');
+
+  const userSearch = {
+    entityType: ['Beneficiary'],
+    filters: {
+      mobile: { eq: getMobileFromLocalStorage },
+    },
+  };
+
+
+  const searchUser = async () => {
+    try {
+      const searchUser = await postRequest('/search', userSearch);
+      setUserInformation(searchUser.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    searchUser
+  }, [])
 
   const filter = {
     entityType: ['Beneficiary'],
@@ -98,7 +122,7 @@ const NewClaim = () => {
         (detail: any) => detail.insurance_id === insurancePlanInputRef
       );
       setpayorFromInsuranceId(
-        matchingPayor ? matchingPayor.payor : 'Payor not found'
+        matchingPayor ? matchingPayor.payorName : 'Payor not found'
       );
     }
     return 'User info not available';
@@ -185,7 +209,7 @@ const NewClaim = () => {
         <div className="mt-4">
           <label className="mb-2.5 block text-left font-medium text-black dark:text-white">
             Treatment/Service Type: *
-          </label>  
+          </label>
           <div className="relative z-20 bg-white dark:bg-form-input">
             <select
               onChange={(e) => {
@@ -196,7 +220,7 @@ const NewClaim = () => {
             >
               <option value="">select</option>
               <option value="OPD">OPD</option>
-              <option value="OPD">IPD</option>
+              <option value="IPD">IPD</option>
             </select>
             <span className="absolute top-1/2 right-4 z-10 -translate-y-1/2">
               <svg
