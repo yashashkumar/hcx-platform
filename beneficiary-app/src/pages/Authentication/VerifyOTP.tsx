@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from '../../images/swasth_logo.png';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { postRequest } from '../../services/registryService';
 import LoadingButton from '../../components/LoadingButton';
@@ -83,12 +83,53 @@ const VerifyOTP = () => {
     }
   };
 
+  const Timer: React.FC = () => {
+    const initialTime = 60;
+    const [time, setTime] = useState(initialTime);
+    const [isResendEnabled, setIsResendEnabled] = useState(false);
+
+    useEffect(() => {
+      let timer: NodeJS.Timeout;
+
+      // Update the timer every second
+      if (time > 0) {
+        timer = setInterval(() => {
+          setTime((prevTime) => prevTime - 1);
+        }, 1000);
+      } else {
+        // Timer has reached zero, enable resend button
+        setIsResendEnabled(true);
+      }
+
+      // Clean up the interval when the component unmounts
+      return () => clearInterval(timer);
+    }, [time]);
+
+    const handleResendClick = () => {
+      // Reset the timer and disable the resend button
+      resendOTP()
+      setTime(initialTime);
+      setIsResendEnabled(false);
+    };
+
+    return (
+      <div>
+        <p>Time remaining: {time} s</p>
+        {isResendEnabled && (
+          <button onClick={handleResendClick}>
+            Resend
+          </button>
+        )}
+      </div>
+    );
+  };
+
   const handleTogglePassword = () => {
     setPasswordVisible(!passwordVisible);
   };
 
   return (
-    <div className="w-full border-stroke bg-white dark:border-strokedark xl:w-1/2 xl:border-l-2">
+    <div className="w-full h-screen m-auto border-stroke bg-white dark:border-strokedark dark:bg-black xl:w-1/2 xl:border-l-2">
       <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
         <div
           className="ml-1 mb-1 flex flex-row align-middle"
@@ -108,10 +149,10 @@ const VerifyOTP = () => {
           </svg>
         </div>
         <Link
-          className="mb-5.5 inline-block md:block lg:block lg:hidden"
+          className="mb-5.5 inline-block md:block lg:block"
           to="#"
         >
-          <img className="w-48 dark:hidden" src={Logo} alt="Logo" />
+          <img className="w-48 dark:blcok" src={Logo} alt="Logo" />
         </Link>
         <h1 className="mb-5 text-3xl font-bold text-black dark:text-white sm:text-title-xl2">
           {strings.WELCOME}
@@ -167,15 +208,9 @@ const VerifyOTP = () => {
               <LoadingButton className="align-center mt-4 flex w-full justify-center rounded bg-primary py-4 font-medium text-gray disabled:cursor-not-allowed" />
             )}
           </div>
-          <p className="mt-2 text-end underline">
-            <a
-              onClick={() => {
-                resendOTP();
-              }}
-            >
-              {strings.RESEND_OTP_BUTTON}
-            </a>
-          </p>
+          <div className='text-right'>
+            <Timer />
+          </div>
         </form>
       </div>
     </div>
