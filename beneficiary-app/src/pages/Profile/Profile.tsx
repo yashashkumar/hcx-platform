@@ -11,6 +11,8 @@ const Profile = () => {
   const [editedPayor, setEditedPayor] = useState('');
   const [originalInsuranceId, setOriginalInsuranceId] = useState('');
   const [originalPayor, setOriginalPayor] = useState('');
+  const [payorName, setPayorName] = useState('');
+  const [originalPayorName, setOriginalPayorName] = useState('');
 
   const filter = {
     entityType: ['Beneficiary'],
@@ -49,9 +51,11 @@ const Profile = () => {
     // Set initial values for editing based on the first element in the array
     setEditedInsuranceId(userInfo[0]?.payor_details[0]?.insurance_id || '');
     setEditedPayor(userInfo[0]?.payor_details[0]?.recipientCode || '');
+    setPayorName(userInfo[0]?.payor_details[0]?.payorName || '')
     // Store original values
     setOriginalInsuranceId(userInfo[0]?.payor_details[0]?.insurance_id || '');
     setOriginalPayor(userInfo[0]?.payor_details[0]?.recipientCode || '');
+    setOriginalPayorName(userInfo[0]?.payor_details[0]?.payorName || '')
   };
 
   const handleCancelClick = () => {
@@ -67,7 +71,7 @@ const Profile = () => {
     payor_details: [
       {
         "insurance_id": editedInsuranceId,
-        "payorName": userInfo[0]?.payor_details[0]?.payorName,
+        "payorName": payorName,
         "recipientCode": editedPayor
       }
     ]
@@ -152,7 +156,22 @@ const Profile = () => {
               ) : (
                 <span className="text-base font-medium">{userInfo[0]?.payor_details[0]?.recipientCode}</span>
               )}
+            </div><div className="flex gap-2 mt-2">
+              <h2 className="text-bold text-base font-bold text-black dark:text-white">
+                Payor Name :
+              </h2>
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={payorName}
+                  className="w-70 rounded-lg border border-stroke bg-transparent py-1 pl-2 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  onChange={(e) => setPayorName(e.target.value)}
+                />
+              ) : (
+                <span className="text-base font-medium">{userInfo[0]?.payor_details[0]?.payorName}</span>
+              )}
             </div>
+
           </div>
         </div>
         {/* ))} */}

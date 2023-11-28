@@ -282,7 +282,7 @@ const CoverageEligibility = () => {
                       </div>
                     </div>
                   </div>
-                  {ele.supportingDocuments.length === 0 ? null : <>
+                  {_.isEmpty(ele.supportingDocuments) ? null : <>
                     <h2 className="text-bold mb-3 text-base font-bold text-black dark:text-white">
                       Supporting documents :
                     </h2>

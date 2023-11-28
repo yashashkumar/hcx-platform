@@ -24,7 +24,7 @@ const ViewClaimRequestDetails = () => {
   const [initiated, setInitiated] = useState(false);
 
   const [OTP, setOTP] = useState<any>();
-  const [docs, setSupportingDocs] = useState<any>([]);
+  const [docs, setSupportingDocs] = useState<any>({});
 
   const [preAuthAndClaimList, setpreauthOrClaimList] = useState<any>([]);
 
@@ -107,7 +107,7 @@ const ViewClaimRequestDetails = () => {
 
   const claimRequestDetails: any = [
     {
-      key: 'Provider name :',
+      key: 'BSP name :',
       value: providerName || '',
     },
     {
@@ -203,11 +203,12 @@ const ViewClaimRequestDetails = () => {
     );
 
     // Extract supporting documents from the filtered entries
-    const supportingDocumentsArray =
-      _.map(claimAndPreauthEntries, (entry: any) => entry.supportingDocuments)
-        .flat();
+    // const supportingDocumentsArray =
+    //   _.map(claimAndPreauthEntries, (entry: any) => entry.supportingDocuments)
+    //     .flat();
+    console.log(claimAndPreauthEntries)
 
-    setSupportingDocs(supportingDocumentsArray);
+    setSupportingDocs(claimAndPreauthEntries?.supportingDocuments);
   };
 
   const hasClaimApproved = preAuthAndClaimList.some(
@@ -266,7 +267,7 @@ const ViewClaimRequestDetails = () => {
           })}
         </div>
       </div>
-      {docs.length === 0 ? null : <>
+      {_.isEmpty(docs) ? null : <>
         <div className="mt-3 rounded-lg border border-stroke bg-white px-3 pb-3 shadow-default dark:border-strokedark dark:bg-boxdark">
           <div className="flex items-center justify-between">
             <h2 className="sm:text-title-xl1 text-1xl mt-2 mb-2 font-semibold text-black dark:text-white">
