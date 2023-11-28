@@ -77,11 +77,15 @@ const SendBankDetails = () => {
     }
   };
 
+  const recipientCode = localStorage.getItem('payorCode');
   const bankDetailsPayload = {
     request_id: details?.apiCallId,
     type: 'bank_details',
     account_number: accountNumber,
     ifsc_code: ifscCode,
+    participantCode: process.env.SEARCH_PARTICIPANT_USERNAME,
+    password: process.env.SEARCH_PARTICIPANT_PASSWORD,
+    recipientCode: recipientCode
   };
 
   const submit = async () => {

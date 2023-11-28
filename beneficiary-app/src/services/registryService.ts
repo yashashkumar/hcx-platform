@@ -8,4 +8,13 @@ async function postRequest(url: any, payload: any) {
   return response;
 }
 
-export { postRequest };
+async function putRequest(osid: any, payload: any) {
+  const response = await axios.put(
+    `${process.env.registry_url}/${osid}`,
+    payload
+  );
+  return response;
+}
+
+
+export { postRequest, putRequest };

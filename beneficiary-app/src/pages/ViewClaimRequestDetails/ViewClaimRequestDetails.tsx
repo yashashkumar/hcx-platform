@@ -10,7 +10,6 @@ import {
 import { toast } from 'react-toastify';
 import LoadingButton from '../../components/LoadingButton';
 import * as _ from "lodash";
-import { ArrowDownTrayIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
 
 const ViewClaimRequestDetails = () => {
   const location = useLocation();
@@ -74,24 +73,37 @@ const ViewClaimRequestDetails = () => {
 
   useEffect(() => {
     try {
+      // if (token !== undefined) {
       const search = async () => {
+        const tokenResponse = await generateToken();
+        // if (tokenResponse.statusText === 'OK') {
+        //   setToken(tokenResponse.data.access_token);
+        // }
         const response = await searchParticipant(
           participantCodePayload,
-          config
+          {
+            headers: {
+              Authorization: `Bearer ${tokenResponse.data.access_token}`,
+            }
+          },
         );
         setProviderName(response.data?.participants[0].participant_name);
-
         const payorResponse = await searchParticipant(
           payorCodePayload,
-          config
+          {
+            headers: {
+              Authorization: `Bearer ${tokenResponse.data.access_token}`,
+            }
+          },
         );
         setPayorName(payorResponse.data?.participants[0].participant_name);
       };
       search();
+      // }
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }, [token]);
 
   const claimRequestDetails: any = [
     {
@@ -147,11 +159,15 @@ const ViewClaimRequestDetails = () => {
     }
   };
 
+  const recipientCode = localStorage.getItem('payorCode');
   const payload = {
     request_id: details?.apiCallId,
     mobile: localStorage.getItem('mobile'),
     otp_code: OTP,
     type: 'otp',
+    participantCode: process.env.SEARCH_PARTICIPANT_USERNAME,
+    password: process.env.SEARCH_PARTICIPANT_PASSWORD,
+    recipientCode: recipientCode
   };
 
   const verifyOTP = async () => {
@@ -257,8 +273,9 @@ const ViewClaimRequestDetails = () => {
               {strings.SUPPORTING_DOCS}
             </h2>
           </div>
-          <div className="flex flex-wrap gap-2">
+          {/* <div className="flex flex-wrap gap-2">
             {_.map(docs, (ele: any, index: any) => {
+              console.log(ele)
               const parts = ele.split('/');
               const fileName = parts[parts.length - 1];
               return (
@@ -278,7 +295,7 @@ const ViewClaimRequestDetails = () => {
                 </div>
               );
             })}
-          </div>
+          </div> */}
         </div>
       </>}
 

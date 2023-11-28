@@ -1,7 +1,7 @@
 export default {
-  WELCOME: 'Welcome to the HCX beneficiary app',
+  WELCOME: 'Welcome to the HCX Beneficiary App',
   SIGNIN: 'Please sign in to your account.',
-  ENTER_MOBILE_NUMBER: 'Please enter your mobile no.',
+  ENTER_MOBILE_NUMBER: 'Please enter your mobile no. :',
   TEN_DIGIT: '10-digit mobile no.',
   SEND_OTP: 'Send OTP',
   OTP_SENT: 'OTP sent to below mobile number',
