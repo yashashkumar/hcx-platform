@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../images/swasth_logo.png';
 import PayorDetailsCard from '../../components/PayorDetailsCard/PayorDetailsCard';
@@ -6,6 +6,9 @@ import { postRequest } from '../../services/registryService';
 import { toast } from 'react-toastify';
 import LoadingButton from '../../components/LoadingButton';
 import strings from '../../utils/strings';
+import useDebounce from '../../hooks/useDebounce';
+import { generateToken, searchParticipant } from '../../services/hcxService';
+import * as _ from "lodash";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -18,6 +21,10 @@ const SignUp = () => {
   const getMobileFromLocalStorage: any = localStorage.getItem('mobile');
   const [payor, setPayor] = useState<string>('wemeanhospital Mock Payor');
   const [insuranceId, setInsuranceId] = useState<string>('');
+  const [payorName, setPayorName] = useState<string>('');
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const [searchResults, setSearchResults] = useState<any>([]);
+  const [participantCode, setParticipantCode] = useState<string>('');
 
   // Function to update card data
   const updateCardData = (cardKey: any, newData: any) => {
@@ -27,15 +34,15 @@ const SignUp = () => {
     setCards(updatedCards);
   };
 
-  const addCard = () => {
-    const cardKey = cards.length + 1;
+  // const addCard = () => {
+  //   const cardKey = cards.length + 1;
 
-    const newCard = {
-      cardKey,
-    };
+  //   const newCard = {
+  //     cardKey,
+  //   };
 
-    setCards([...cards, newCard]);
-  };
+  //   setCards([...cards, newCard]);
+  // };
 
   const removeCard = (cardToRemove: any) => {
     const updatedCards = cards.filter(
@@ -52,20 +59,21 @@ const SignUp = () => {
     setInsuranceId(e.target.value);
   };
 
-  let addMoreDetails = cards.map((ele: any) => {
-    return { insurance_id: ele.insurance_id, payor: ele.payor };
-  });
+  // let addMoreDetails = cards.map((ele: any) => {
+  //   return { insurance_id: ele.insurance_id, payor: ele.payor };
+  // });
 
   let payload = {
     email: email,
-    mobile: getMobileFromLocalStorage,
+    mobile: "6363062395",
     name: userName,
     payor_details: [
       {
         insurance_id: insuranceId,
-        payor: payor,
+        payorName: payorName,
+        recipientCode: participantCode
       },
-      ...addMoreDetails,
+      // ...addMoreDetails,
     ],
   };
 
@@ -103,10 +111,55 @@ const SignUp = () => {
     return false;
   };
 
+  const debounce = useDebounce(payorName, 500);
+
+  const searchPayload = {
+    filters: {
+      participant_name: { eq: payorName },
+      "roles": {
+        "eq": "payor"
+      },
+      "status": {
+        "eq": "Active"
+      }
+    },
+  };
+
+  let search = async () => {
+    try {
+      if (payorName.trim() === '') {
+        setSearchResults([]);
+        return;
+      }
+      const tokenResponse = await generateToken();
+      const token = tokenResponse.data.access_token;
+      const response = await searchParticipant(searchPayload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setOpenDropdown(true);
+      setSearchResults(response.data?.participants);
+    } catch (error: any) {
+      setOpenDropdown(false);
+      // toast.error(_.get(error, 'response.data.error.message'))
+    }
+  };
+
+  useEffect(() => {
+    search();
+  }, [debounce]);
+
+  const handleSelect = (result: any, participantCode: any) => {
+    setOpenDropdown(false);
+    setParticipantCode(participantCode);
+    setPayorName(result);
+  };
+
   return (
-    <div className="w-full border-stroke bg-white p-2 dark:border-strokedark xl:w-1/2 xl:border">
-      <Link className="inline-block px-4 md:block lg:block lg:hidden" to="#">
-        <img className="w-48 dark:hidden" src={Logo} alt="Logo" />
+    <div className="w-full m-auto border-stroke bg-white p-2 dark:border-strokedark dark:bg-black xl:w-1/2 xl:border">
+      <Link className="inline-block px-4 md:block lg:block" to="#">
+        <img className="w-48 dark:block" src={Logo} alt="Logo" />
       </Link>
       <h2 className="sm:text-title-xl1 mb-4 text-2xl font-bold text-black dark:text-white">
         {strings.ADD_PROFILE_DETAILS}
@@ -167,38 +220,70 @@ const SignUp = () => {
           <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="flex flex-col gap-5.5 p-4">
               <div>
-                <label className="mb-2.5 block text-left font-medium text-black dark:text-white">
-                  {strings.PAYOR_DETAILS}
-                </label>
-                <div className="relative z-20 bg-white dark:bg-form-input">
-                  <select
-                    required
-                    onChange={handlePayorChange}
-                    className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-4 px-6 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input"
-                  >
-                    <option value="wemeanhospital Mock Payor">
-                      wemeanhospital Mock Payor
-                    </option>
-                    <option value="Swast Payor">Swast Payor</option>
-                  </select>
-                  <span className="absolute top-1/2 right-4 z-10 -translate-y-1/2">
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+                <h2 className="text-bold text-base font-bold text-black dark:text-white">
+                  Payor name:
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Search..."
+                      value={payorName}
+                      onChange={(e) => setPayorName(e.target.value)}
+                      className="mt-2 w-full rounded-lg border-[1.5px] border-stroke bg-white py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                    />
+                    <span
+                      className="absolute top-8 right-4 z-30 -translate-y-1/2"
+                      onClick={() => {
+                        setOpenDropdown(!openDropdown);
+                      }}
                     >
-                      <g opacity="0.8">
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
-                          fill="#637381"
-                        ></path>
-                      </g>
-                    </svg>
-                  </span>
+                      <svg
+                        className="fill-current"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g opacity="0.8">
+                          <path
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
+                            fill=""
+                          ></path>
+                        </g>
+                      </svg>
+                    </span>
+                    {openDropdown && searchResults.length !== 0 ? (
+                      <div className="max-h-40 overflow-y-auto overflow-x-hidden">
+                        <ul className="border-gray-300 left-0 w-full rounded-lg bg-gray px-2 text-black">
+                          {_.map(searchResults, (result: any, index: any) => (
+                            <li
+                              key={index}
+                              onClick={() =>
+                                handleSelect(
+                                  result?.participant_name,
+                                  result?.participant_code
+                                )
+                              }
+                              className="hover:bg-gray-200 cursor-pointer p-2"
+                            >
+                              {result?.participant_name +
+                                ` (${result?.participant_code})` || ''}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                </h2>
+                <div className='items-center'>
+                  <h2 className="text-bold mt-3 text-base font-bold text-black dark:text-white">
+                    {strings.PARTICIPANT_CODE}
+                  </h2>
+                  <span className='mt-3'>{payorName ? participantCode : 'Search above for participant code'}</span>
                 </div>
               </div>
               <div>
@@ -240,12 +325,6 @@ const SignUp = () => {
                 />
               </div>
             ))}
-          </div>
-
-          <div className="mt-4 text-right">
-            <a className="underline" onClick={addCard}>
-              {strings.ADD_ANOTHER}
-            </a>
           </div>
         </form>
       </div>
