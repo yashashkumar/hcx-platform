@@ -159,7 +159,7 @@ const ViewClaimRequestDetails = () => {
     }
   };
 
-  const recipientCode = localStorage.getItem('payorCode');
+  const recipientCode = localStorage.getItem('recipientCode');
   const payload = {
     request_id: details?.apiCallId,
     mobile: localStorage.getItem('mobile'),

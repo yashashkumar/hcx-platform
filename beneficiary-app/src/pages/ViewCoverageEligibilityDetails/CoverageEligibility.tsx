@@ -28,6 +28,7 @@ const CoverageEligibility = () => {
   };
 
   const [type, setType] = useState<string[]>([]);
+  localStorage.setItem('recipientCode', requestDetails?.participantCode)
 
   const claimRequestDetails: any = [
     {
