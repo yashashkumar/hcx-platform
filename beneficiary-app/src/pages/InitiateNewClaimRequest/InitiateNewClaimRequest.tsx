@@ -35,7 +35,7 @@ const InitiateNewClaimRequest = () => {
   const cliamDetails = location.state;
   const claimRequestDetails: any = [
     {
-      key: 'Provider name :',
+      key: 'Provider :',
       value: cliamDetails?.providerName || providerName,
     },
     {

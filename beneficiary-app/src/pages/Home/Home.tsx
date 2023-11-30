@@ -165,14 +165,27 @@ const Home = () => {
         {loading ? (
           <div className="flex items-center gap-4">
             <h1 className="px-1 text-2xl font-bold text-black dark:text-white">
-              Getting active requests
+              Getting Active Requests
             </h1>
             <TransparentLoader />
           </div>
         ) : coverageAndClaimData.length === 0 ? (
-          <h1 className="px-1 text-2xl font-bold text-black dark:text-white">
-            No active requests
-          </h1>
+          <div className="flex justify-between">
+            <h1 className="px-1 mb-1 text-2xl font-bold text-black dark:text-white">
+              No Active Requests
+            </h1>
+            <>
+              <ArrowPathIcon
+                onClick={() => {
+                  getCoverageEligibilityRequestList(setLoading, requestPayload, setActiveRequests, setFinalData, setDisplayedData);
+                }}
+                className={
+                  loading ? "animate-spin h-7 w-7" : "h-7 w-7"
+                }
+                aria-hidden="true"
+              />
+            </>
+          </div>
         ) : (
           <div className="flex justify-between">
             <h1 className="px-1 mb-1 text-2xl font-bold text-black dark:text-white">

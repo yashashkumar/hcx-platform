@@ -38,7 +38,7 @@ const PreAuthRequest = () => {
 
   const preauthRequestDetails: any = [
     {
-      key: 'Provider name :',
+      key: 'Provider :',
       value: dataFromCard?.providerName || '',
     },
     {

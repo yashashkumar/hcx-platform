@@ -107,7 +107,7 @@ const ViewClaimRequestDetails = () => {
 
   const claimRequestDetails: any = [
     {
-      key: 'BSP name :',
+      key: 'Provider :',
       value: providerName || '',
     },
     {
