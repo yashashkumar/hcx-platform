@@ -192,14 +192,14 @@ const Home = () => {
             aria-hidden="true"
           />
         </div>
-        <label className="mb-2.5 mt-2 block text-left font-medium text-black dark:text-white">
+        {/* <label className="mb-2.5 mt-2 block text-left font-medium text-black dark:text-white">
           {strings.PATIENT_MOBILE}
-        </label>
-        <div className="relative">
+        </label> */}
+        <div className="relative mt-3">
           <input
             onChange={handleMobileNumberChange}
             type="text"
-            placeholder="Enter mobile no."
+            placeholder="Enter beneficiary mobile to search"
             className={`border ${isValid ? "border-stroke" : "border-red"
               } w-full rounded-lg py-4 pl-6 pr-10 outline-none focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary`}
           />
