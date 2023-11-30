@@ -74,7 +74,7 @@ const AddConsultation = () => {
         "consultation/add",
         consultationPayload)
         toast.success("Consultation added successfully!");
-        // navigate("/coverage-eligibility", { state: location.state });
+        navigate("/coverage-eligibility", { state: location.state });
     } catch (err) {
       toast.error("Faild to add consultation, try again!");
     }
