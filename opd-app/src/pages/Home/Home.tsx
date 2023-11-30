@@ -46,7 +46,7 @@ const Home = () => {
   const userSearchPayload = {
     entityType: ["Beneficiary"],
     filters: {
-      primary_email: { eq: getEmailFromLocalStorage },
+      participant_code: { eq: getEmailFromLocalStorage },
     },
   };
 
@@ -158,7 +158,7 @@ const Home = () => {
                 qrbox={250}
                 disableFlip={false}
                 qrCodeSuccessCallback={onNewScanResult}
-                // setInitialized={initialized}
+              // setInitialized={initialized}
               />
             </div>
           </div>
@@ -270,6 +270,7 @@ const Home = () => {
                     workflowId={ele.workflow_id}
                     patientMobileNumber={ele.mobile || mobileNumber}
                     patientName={ele.patientName}
+                    recipient_code={ele.recipient_code}
                   />
                 </div>
               );

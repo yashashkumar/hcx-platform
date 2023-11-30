@@ -12,6 +12,7 @@ import { postRequest } from "../../services/registryService";
 import { isEmpty } from "lodash";
 import { ArrowDownTrayIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
 import * as _ from "lodash";
+import thumbnail from "../../images/pngwing.com.png"
 
 const ViewPatientDetails = () => {
   const navigate = useNavigate();
@@ -205,7 +206,7 @@ const ViewPatientDetails = () => {
   useEffect(() => {
     tokenGeneration();
     getActivePlans();
-  }, [preauthOrClaimListPayload.workflow_id,patientMobile]);
+  }, [preauthOrClaimListPayload.workflow_id, patientMobile]);
 
   const getConsultation = async () => {
     try {
@@ -252,7 +253,7 @@ const ViewPatientDetails = () => {
         "Object with type 'coverageeligibility' not found for the given ID."
       );
     }
-  }, [coverageStatus,patientMobile]);
+  }, [coverageStatus, patientMobile]);
 
   useEffect(() => {
     getPatientDetails();
@@ -367,7 +368,7 @@ const ViewPatientDetails = () => {
                   </h2>
                   <div className="mr-6">:</div>
                   <span className="text-base font-medium">
-                    {patientDetails[0]?.payor_details[0]?.payor}
+                    {patientDetails[0]?.payor_details[0]?.payorName}
                   </span>
                 </div>
               </div>
@@ -401,20 +402,12 @@ const ViewPatientDetails = () => {
                     const parts = ele.split('/');
                     const fileName = parts[parts.length - 1];
                     return (
-                      <>
-                        <a
-                          href={ele}
-                          download
-                          className="flex flex-col mt-3 w-45 shadow-sm border border-gray-300 hover:border-gray-400 rounded-md px-3 py-1 font-medium text-gray-700 hover:text-black"
-                        >
-                          <span className="text-center">{fileName}</span>
-                          <img src={ele} alt="" height="100px" />
-                          <div className="flex items-center justify-center">
-                            <ArrowDownTrayIcon className="h-5 w-5 flex-shrink-0 mr-2 text-indigo-400" />
-                            <span>Download</span>
-                          </div>
-                        </a>
-                      </>
+                      <a href={ele} download>
+                        <div className='text-center'>
+                          <img key={index} height={150} width={150} src={thumbnail} alt='image' />
+                          <span>{fileName}</span>
+                        </div>
+                      </a>
                     );
                   })}
                 </div></> : null}
@@ -476,32 +469,31 @@ const ViewPatientDetails = () => {
                         </div> : null}
                     </div>
                   </div>
-                  {ele.supportingDocuments.length === 0 ? null : <>
+                  {_.isEmpty(ele.supportingDocuments) ? null : <>
                     <h2 className="text-bold mb-3 text-base font-bold text-black dark:text-white">
                       Supporting documents :
                     </h2>
-                    <div className="flex flex-wrap gap-2">
-                      {_.map(ele.supportingDocuments, (ele: string, index: number) => {
-                        const parts = ele.split('/');
-                        const fileName = parts[parts.length - 1];
-                        return (
-                          <>
-                            <a
-                              href={ele}
-                              download
-                              className="flex flex-col w-50 shadow-sm border border-gray-300 hover:border-gray-400 rounded-md px-3 py-1 font-medium text-gray-700 hover:text-black"
-                            >
-                              <span className="text-center">{fileName}</span>
-                              <img src={ele} alt="" />
-                              <div className="flex items-center justify-center">
-                                <ArrowDownTrayIcon className="h-5 w-5 flex-shrink-0 mr-2 text-indigo-400" />
-                                <span>Download</span>
-                              </div>
-                            </a>
-                          </>
-                        );
-                      })}
-                    </div>
+                    {Object.entries(ele.supportingDocuments).map(([key, values]) => (
+                      <div key={key}>
+                        <h3 className='text-base font-bold text-black dark:text-white'>Document type : <span className='text-base font-medium'>{key}</span></h3>
+                        <div className='flex'>
+                          {Array.isArray(values) &&
+                            values.map((imageUrl, index) => {
+                              const parts = imageUrl.split('/');
+                              const fileName = parts[parts.length - 1];
+                              console.log(fileName)
+                              return (
+                                <a href={imageUrl} download>
+                                  <div className='text-center'>
+                                    <img key={index} height={150} width={150} src={thumbnail} alt={`${key} ${index + 1}`} />
+                                    <span>{fileName}</span>
+                                  </div>
+                                </a>
+                              )
+                            })}
+                        </div>
+                      </div>
+                    ))}
                   </>}
                 </div>
               </>
