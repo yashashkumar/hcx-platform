@@ -350,14 +350,16 @@ const AddPatientAndInitiateCoverageEligibility = () => {
 
   useEffect(() => {
     searchPayorForPatient();
+  }, [debounce]);
+
+  useEffect(() => {
     if (mobile !== "") {
       patientSearch()
     }
     if (patientDataFromState?.mobile) {
       patientSearch()
     }
-  }, [debounce, patientDataFromState?.mobileNumber]);
-
+  }, [patientDataFromState?.mobileNumber])
 
   const handleSelect = (result: any, participantCode: any) => {
     setOpenDropdown(false);
