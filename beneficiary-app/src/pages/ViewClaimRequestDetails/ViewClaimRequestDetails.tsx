@@ -215,8 +215,6 @@ const ViewClaimRequestDetails = () => {
     (entry: any) => entry.type === 'claim' && entry.status === 'Approved'
   );
 
-  // console.log(hasClaimApproved);
-
   return (
     <>
       <div className="relative mb-4 items-center justify-between">
