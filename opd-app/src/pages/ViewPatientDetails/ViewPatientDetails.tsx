@@ -48,10 +48,13 @@ const ViewPatientDetails = () => {
     },
   };
 
+  // console.log(localStorage.getItem("patientMobile"))
+
   const getPatientDetails = async () => {
     try {
       setisLoading(true);
       let registerResponse: any = await postRequest("search", payload);
+      console.log(registerResponse)
       const patientDetails = registerResponse.data;
       setPatientDetails(patientDetails);
     } catch (error: any) {
@@ -266,6 +269,12 @@ const ViewPatientDetails = () => {
   const patientInsuranceId = localStorage.getItem('patientInsuranceId');
   const patientPayorName = localStorage.getItem('patientPayorName');
 
+  // console.log(patientDetails[0]?.payor_details[0]?.insurance_id)
+  // console.log(patientInsuranceId)
+
+  const patient_Insurance_Id = patientInsuranceId || (patientDetails[0]?.payor_details[0]?.insurance_id)
+  console.log(patient_Insurance_Id)
+
   return (
     <>
       {!loading ? (
@@ -362,7 +371,7 @@ const ViewPatientDetails = () => {
                   </h2>
                   <div className="mr-6">:</div>
                   <span className="text-base font-medium">
-                    {patientInsuranceId || patientDetails[0]?.payor_details[0]?.insurance_id}
+                    {patientInsuranceId === "undefined" ? (patientDetails[0]?.payor_details[0]?.insurance_id) : patientInsuranceId}
                   </span>
                 </div>
                 <div className="flex gap-2">
@@ -371,7 +380,7 @@ const ViewPatientDetails = () => {
                   </h2>
                   <div className="mr-6">:</div>
                   <span className="text-base font-medium">
-                    {patientPayorName || patientDetails[0]?.payor_details[0]?.payorName}
+                    {patientPayorName === "undefined" ? (patientDetails[0]?.payor_details[0]?.payorName) : patientPayorName}
                   </span>
                 </div>
               </div>
