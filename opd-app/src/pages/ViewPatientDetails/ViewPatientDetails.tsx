@@ -263,6 +263,9 @@ const ViewPatientDetails = () => {
     (entry: any) => entry.type === "claim"
   );
 
+  const patientInsuranceId = localStorage.getItem('patientInsuranceId');
+  const patientPayorName = localStorage.getItem('patientPayorName');
+
   return (
     <>
       {!loading ? (
@@ -359,7 +362,7 @@ const ViewPatientDetails = () => {
                   </h2>
                   <div className="mr-6">:</div>
                   <span className="text-base font-medium">
-                    {patientDetails[0]?.payor_details[0]?.insurance_id}
+                    {patientInsuranceId || patientDetails[0]?.payor_details[0]?.insurance_id}
                   </span>
                 </div>
                 <div className="flex gap-2">
@@ -368,7 +371,7 @@ const ViewPatientDetails = () => {
                   </h2>
                   <div className="mr-6">:</div>
                   <span className="text-base font-medium">
-                    {patientDetails[0]?.payor_details[0]?.payorName}
+                    {patientPayorName || patientDetails[0]?.payor_details[0]?.payorName}
                   </span>
                 </div>
               </div>
